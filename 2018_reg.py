@@ -201,14 +201,12 @@ learning_vars = [
 ]
 
 def significance_stars(pval):
-    if pval < 0.001:
+    if pval < 0.01:
         return '***'
-    elif pval < 0.01:
-        return '**'
-    elif pval < 0.05:
-        return '*'
     elif pval < 0.1:
-        return '†'
+        return '**'
+    elif pval < 0.5:
+        return '*'
     else:
         return ''
     
