@@ -330,26 +330,54 @@ if RUN_GENERAL_REGRESSION:
     # === Convert to DataFrame
     results_df = pd.DataFrame(results)
 
-    # === Plotting
-    for pred in ["read_time_numeric", "books_home"]:
-        subset = results_df[results_df["predictor"] == pred]
-        if subset.empty:
-            continue
+    # Map variable names to readable labels
+predictor_labels = {
+    "read_time_numeric": "Time Spent Reading per Day",
+    "books_home": "Number of Books at Home"
+}
 
-        plt.figure(figsize=(10, 6))
+for pred in ["read_time_numeric", "books_home"]:
+    subset = results_df[results_df["predictor"] == pred]
+    if subset.empty:
+        continue
+
+    plt.figure(figsize=(10, 6))
+
+    if SPLIT_BY_OECD:
+        # Custom professional color palette
+        color_map = {
+            "OECD": "#465759",      # Dusty charcoal-teal
+            "non-OECD": "#B77D8F"   # Muted burgundy-rose
+        }
+
         for group in subset["subset"].unique():
             group_data = subset[subset["subset"] == group]
-            plt.errorbar(group_data["coef"], group_data["outcome"],
-                         xerr=1.96 * group_data["se"], fmt='o', capsize=4, label=group)
-        plt.axvline(0, linestyle='--', color='gray')
-        plt.title(f"Effect of '{pred}' by group")
-        plt.xlabel("Coefficient (±95% CI)")
-        plt.ylabel("Outcome")
-        plt.legend()
-        plt.grid(True, linestyle='--', alpha=0.5)
-        plt.tight_layout()
-        plt.show()
+            plt.errorbar(
+                group_data["coef"], group_data["outcomes"],
+                xerr=1.96 * group_data["se"],
+                fmt='o', capsize=4, label=group,
+                color=color_map.get(group, "#999999")  # fallback grey
+            )
+        title_suffix = "by OECD Status"
+    else:
+        # All Countries – keep consistent dark blue
+        group_data = subset
+        plt.errorbar(
+            group_data["coef"], group_data["outcomes"],
+            xerr=1.96 * group_data["se"],
+            fmt='o', capsize=4, label="All Countries",
+            color="#003366"
+        )
+        title_suffix = "(All Countries)"
 
+    plt.axvline(0, linestyle='--', color='gray')
+    plt.title(f"Association between {predictor_labels[pred]} and Outcome {title_suffix}")
+    plt.xlabel("Coefficient (±95% CI)")
+    plt.ylabel("Outcome")
+    plt.legend()
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.tight_layout()
+    plt.show()
     # === Save summary table
     results_df["coef_str"] = results_df.apply(lambda row: f"{row['coef']:.3f}{row['stars']}", axis=1)
     print("\n=== Summary Table of Predictors ===")
