@@ -353,7 +353,7 @@ for pred in ["read_time_numeric", "books_home"]:
         for group in subset["subset"].unique():
             group_data = subset[subset["subset"] == group]
             plt.errorbar(
-                group_data["coef"], group_data["outcomes"],
+                group_data["coef"], group_data["outcome"],
                 xerr=1.96 * group_data["se"],
                 fmt='o', capsize=4, label=group,
                 color=color_map.get(group, "#999999")  # fallback grey
@@ -363,7 +363,7 @@ for pred in ["read_time_numeric", "books_home"]:
         # All Countries – keep consistent dark blue
         group_data = subset
         plt.errorbar(
-            group_data["coef"], group_data["outcomes"],
+            group_data["coef"], group_data["outcome"],
             xerr=1.96 * group_data["se"],
             fmt='o', capsize=4, label="All Countries",
             color="#003366"
@@ -373,7 +373,7 @@ for pred in ["read_time_numeric", "books_home"]:
     plt.axvline(0, linestyle='--', color='gray')
     plt.title(f"Association between {predictor_labels[pred]} and Outcome {title_suffix}")
     plt.xlabel("Coefficient (±95% CI)")
-    plt.ylabel("Outcome")
+    plt.ylabel("Outcomes")
     plt.legend()
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.tight_layout()
