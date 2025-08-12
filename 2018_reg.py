@@ -201,15 +201,15 @@ learning_vars = [
 ]
 
 def significance_stars(pval):
-    if pval < 0.01:
-        return '***'
-    elif pval < 0.1:
-        return '**'
-    elif pval < 0.5:
-        return '*'
+    if pval < 0.001:
+        return '***'  
+    elif pval < 0.01:
+        return '**'   
+    elif pval < 0.05:
+        return '*'    
     else:
         return ''
-    
+
 
 
 # === Add OECD dummy ===
