@@ -23,23 +23,23 @@ base_vars = ["read_time_numeric", "books_home", "country"]
 control_vars = [
     
     
-    "age",
+    #"age",
     
-    "gender",
+   # "gender",
 
     # do students value or think cooperation is important
     #"coop_value_cooperation","coop_students_cooperate","coop_coop_important", "coop_encouraged",
 
     # === school teaches students about culture, conflict resolution etc.
     
-    "learn_interconnected_economies", "learn_conflict_resolution", "learn_about_cultures", "learn_current_news", "learn_opinion_on_news", "learn_celebrate_diversity", "learn_world_event_discussion", "learn_global_issues_groupwork", "learn_different_perspectives", "learn_crosscultural_communication",
+    #"learn_interconnected_economies", "learn_conflict_resolution", "learn_about_cultures", "learn_current_news", "learn_opinion_on_news", "learn_celebrate_diversity", "learn_world_event_discussion", "learn_global_issues_groupwork", "learn_different_perspectives", "learn_crosscultural_communication",
     # === amount of languages
     #"lang_student", "lang_mother", "lang_father",
     # === cultural contact
     #"contact_family", "contact_school", "contact_neighbourhood", "contact_friends",
 
     # === taught ditigal skills (eg being critical of phishing)
-    "diglit_keywords_search","diglit_trust_info", "diglit_compare_pages", "diglit_privacy_awareness", "diglit_search_snippet", "diglit_subjectivity_bias", "diglit_detect_phishing",
+   #"diglit_keywords_search","diglit_trust_info", "diglit_compare_pages", "diglit_privacy_awareness", "diglit_search_snippet", "diglit_subjectivity_bias", "diglit_detect_phishing",
 
     # reading attitudes to control for
     #"att_1_read_only_if_have_to","att_2_reading_hobby","att_3_talk_books","att_4_reading_waste","att_5_read_for_info",
@@ -50,17 +50,17 @@ control_vars = [
 
 
     # === school reads texts
-    "school_text_diagrams_maps", "school_text_fiction", "school_text_tables_graphs", "school_text_digital_links",
+   #"school_text_diagrams_maps", "school_text_fiction", "school_text_tables_graphs", "school_text_digital_links",
 
     # === education
-    "mother_edu", "father_edu", "highest_parent_edu", "student_edu_level", "parent_edu_years",
+    #"mother_edu", "father_edu", "highest_parent_edu", "student_edu_level", "parent_edu_years",
 
     # === teachers support
     #"teacher_interest", "teacher_support_language","teacher_directed_instruction", "teacher_reading_stimulation",
 
     # === wealth 
 
-    "family_wealth_index","socioeconomic_index", "parent_occ_status", "home_possessions",  "home_edu_resources", "cultural_possessions",
+    #"family_wealth_index","socioeconomic_index", "parent_occ_status", "home_possessions",  "home_edu_resources", "cultural_possessions",
    
 
 
@@ -69,11 +69,11 @@ control_vars = [
 
     # === amount of learning in classroom
 
-    "learning_time_mins",
+    #"learning_time_mins",
 
     # === years of childcare
 
-    "ecec_duration",
+    #"ecec_duration",
      
     # === ICT usage
     #"ict_home", "ict_school", "ict_use_leisure", "ict_use_schoolwork_outside_school", "ict_use_in_school", "ict_interest",
@@ -84,15 +84,14 @@ control_vars = [
 
     #"perceived_cooperation_school",
 
-    "subjective_wellbeing_positive_affect",
+    #"subjective_wellbeing_positive_affect",
 
-    "school_discrimination_climate",
+    #"school_discrimination_climate",
 
     #"school_belonging",
 
     #"being_bullied",
 
-    # effort
     #"effort_actual", "effort_ideal",
 
     #"bullied_irritates_me","bullied_help_good","bullied_wrong_join", "bullied_feel_bad", "bullied_like_defender",
@@ -115,7 +114,7 @@ control_vars = [
     #"cognitive_flexibility",
     #"respect_other_cultures",
 
-    "intercultural_awareness",
+    #"intercultural_awareness",
 
     #"attitude_learning_activities",
 
@@ -202,11 +201,11 @@ learning_vars = [
 
 def significance_stars(pval):
     if pval < 0.001:
-        return '***'  
+        return '***'   # p < 0.001
     elif pval < 0.01:
-        return '**'   
+        return '**'    # p < 0.01
     elif pval < 0.05:
-        return '*'    
+        return '*'     # p < 0.05
     else:
         return ''
 
@@ -224,8 +223,8 @@ df["is_OECD"] = df["country"].isin(oecd_codes)
 import matplotlib.pyplot as plt
 
 # === Toggle to run general regression block ===
-RUN_GENERAL_REGRESSION = True
-SPLIT_BY_OECD = True  # False = all countries; True = OECD split
+RUN_GENERAL_REGRESSION = False
+SPLIT_BY_OECD = False  # False = all countries; True = OECD split
 
 # === Robustness settings ===
 USE_CLUSTER_SES = True
@@ -258,6 +257,7 @@ if INTERACT_READTIME_BOOKS:
     base_vars = [v for v in base_vars if v not in ["read_time_numeric", "books_home"]]
 
 # === Main block
+# === Main block
 if RUN_GENERAL_REGRESSION:
     subsets = [("All Countries", df)] if not SPLIT_BY_OECD else [
         ("OECD", df[df["is_OECD"] == True]),
@@ -280,7 +280,6 @@ if RUN_GENERAL_REGRESSION:
                 formula += " + C(country)"
                 model_vars += ["country"]
 
-            # Add raw variables for interactions
             if INTERACT_READTIME_GENDER:
                 model_vars += ["read_time_numeric", "gender"]
             if INTERACT_BOOKS_GENDER:
@@ -317,7 +316,6 @@ if RUN_GENERAL_REGRESSION:
             if CHECK_VIF:
                 from statsmodels.stats.outliers_influence import variance_inflation_factor
                 from patsy import dmatrix
-
                 print("\n Checking VIFs...")
                 rhs = formula.split('~')[1].strip()
                 X_vif = dmatrix(rhs, data=df_model, return_type='dataframe')
@@ -330,62 +328,60 @@ if RUN_GENERAL_REGRESSION:
     # === Convert to DataFrame
     results_df = pd.DataFrame(results)
 
-    # Map variable names to readable labels
-predictor_labels = {
-    "read_time_numeric": "Time Spent Reading per Day",
-    "books_home": "Number of Books at Home"
-}
+    # === Plot + save summary (only if the block ran)
+    predictor_labels = {
+        "read_time_numeric": "Time Spent Reading per Day",
+        "books_home": "Number of Books at Home"
+    }
 
-for pred in ["read_time_numeric", "books_home"]:
-    subset = results_df[results_df["predictor"] == pred]
-    if subset.empty:
-        continue
+    for pred in ["read_time_numeric", "books_home"]:
+        subset = results_df[results_df["predictor"] == pred]
+        if subset.empty:
+            continue
 
-    plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(10, 6))
 
-    if SPLIT_BY_OECD:
-        # Custom professional color palette
-        color_map = {
-            "OECD": "#465759",      # Dusty charcoal-teal
-            "non-OECD": "#B77D8F"   # Muted burgundy-rose
-        }
-
-        for group in subset["subset"].unique():
-            group_data = subset[subset["subset"] == group]
+        if SPLIT_BY_OECD:
+            color_map = {"OECD": "#465759", "non-OECD": "#B77D8F"}
+            for group in subset["subset"].unique():
+                group_data = subset[subset["subset"] == group]
+                plt.errorbar(
+                    group_data["coef"], group_data["outcome"],
+                    xerr=1.96 * group_data["se"],
+                    fmt='o', capsize=4, label=group,
+                    color=color_map.get(group, "#999999")
+                )
+            title_suffix = "by OECD Status"
+        else:
+            group_data = subset
             plt.errorbar(
                 group_data["coef"], group_data["outcome"],
                 xerr=1.96 * group_data["se"],
-                fmt='o', capsize=4, label=group,
-                color=color_map.get(group, "#999999")  # fallback grey
+                fmt='o', capsize=4, label="All Countries",
+                color="#003366"
             )
-        title_suffix = "by OECD Status"
-    else:
-        # All Countries – keep consistent dark blue
-        group_data = subset
-        plt.errorbar(
-            group_data["coef"], group_data["outcome"],
-            xerr=1.96 * group_data["se"],
-            fmt='o', capsize=4, label="All Countries",
-            color="#003366"
-        )
-        title_suffix = "(All Countries)"
+            title_suffix = "(All Countries)"
 
-    plt.axvline(0, linestyle='--', color='gray')
-    plt.title(f"Association between {predictor_labels[pred]} and Outcome {title_suffix}")
-    plt.xlabel("Coefficient (±95% CI)")
-    plt.ylabel("Outcomes")
-    plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.5)
-    plt.tight_layout()
-    plt.show()
-    # === Save summary table
+        plt.axvline(0, linestyle='--', color='gray')
+        plt.title(f"Association between {predictor_labels[pred]} and Outcome {title_suffix}")
+        plt.xlabel("Coefficient (±95% CI)")
+        plt.ylabel("Outcomes")
+        plt.legend()
+        plt.grid(True, linestyle='--', alpha=0.5)
+        plt.tight_layout()
+        plt.show()
+
     results_df["coef_str"] = results_df.apply(lambda row: f"{row['coef']:.3f}{row['stars']}", axis=1)
     print("\n=== Summary Table of Predictors ===")
     print(tabulate(results_df[["subset", "outcome", "predictor", "coef_str", "se"]],
                    headers='keys', tablefmt='github', floatfmt=".3f"))
 
     output_path = os.path.join(BASE_DIR, "../output/2018output/regression_results_summary.csv")
-    results_df.to_csv(output_path, index=False) 
+    results_df.to_csv(output_path, index=False)
+
+else:
+    # Keep a defined empty object so later code won't crash if referenced
+    results_df = pd.DataFrame()
 
 
 
@@ -393,6 +389,8 @@ for pred in ["read_time_numeric", "books_home"]:
 # === Regression run toggles ===
 RUN_WEALTH_MODEL = False
 RUN_BOOKS_MODEL = False
+
+
 
 # === Additional Regressions===
 # === Wealth ➜ Books at Home ===
@@ -618,3 +616,194 @@ if RUN_WEALTH_MODEL:
 if RUN_BOOKS_MODEL:
     print("\n Running regression: Books at Home ➜ Reading Time")
     run_books_to_reading_model(df)
+
+
+# === Significance formatter ===
+def significance_stars(p):
+    if p < 0.001:
+        return '***'
+    elif p < 0.01:
+        return '**'
+    elif p < 0.05:
+        return '*'
+    else:
+        return ''
+
+
+# ============================
+# Books at Home ➜ SES (ESCS)
+# ============================
+
+RUN_BOOKS_SES_MODEL = True
+SES_VAR = "socioeconomic_index"   # or "ESCS", "family_wealth_index"
+
+def run_books_to_ses_model(df):
+    outcome_var = SES_VAR
+    predictor   = "books_home"
+    collect_predictors = ["books_home"]  # extend if you add more
+    results = []
+    full_models = {}
+
+    subsets = [("All Countries", df)] if not SPLIT_BY_OECD else [
+        ("OECD", df[df["is_OECD"] == True]),
+        ("non-OECD", df[df["is_OECD"] == False]),
+    ]
+
+    for subset_label, subset_df in subsets:
+        print(f"\n📘 Books ➜ SES regression for: {subset_label}")
+
+        predictors = [predictor] + control_vars
+        rhs = ' + '.join(predictors) if predictors else predictor
+        formula = f"{outcome_var} ~ {rhs}"
+
+        model_vars = [outcome_var, predictor] + control_vars
+        if USE_COUNTRY_FE:
+            formula += " + C(country)"
+            model_vars += ["country"]
+
+        df_model = subset_df[model_vars].copy()
+        # ensure numeric
+        df_model[outcome_var] = pd.to_numeric(df_model[outcome_var], errors="coerce")
+        df_model[predictor]   = pd.to_numeric(df_model[predictor],   errors="coerce")
+        for c in control_vars:
+            df_model[c] = pd.to_numeric(df_model[c], errors="coerce")
+        df_model = df_model.dropna()
+        print(f"📊 Sample size: {len(df_model):,}")
+
+        if df_model[predictor].nunique() < 2:
+            print("⚠️ Skipping: not enough variation in books_home")
+            continue
+
+        mod = smf.ols(formula=formula, data=df_model)
+        if USE_CLUSTER_SES:
+            # be robust if 'country' wasn't added to df_model
+            groups = df_model["country"] if "country" in df_model.columns else subset_df.loc[df_model.index, "country"]
+            fit = mod.fit(cov_type="cluster", cov_kwds={"groups": groups})
+        else:
+            fit = mod.fit()
+
+        print(fit.summary())
+        full_models[subset_label] = fit
+
+        # collect the lines you care about (like your other script)
+        for pred in collect_predictors:
+            if pred in fit.params:
+                pval = fit.pvalues[pred]
+                results.append({
+                    "subset": subset_label,
+                    "outcome": outcome_var,
+                    "predictor": pred,
+                    "coef": float(fit.params[pred]),
+                    "se": float(fit.bse[pred]),
+                    "stars": significance_stars(pval),
+                })
+
+    # tidy summary like your other block
+    res_df = pd.DataFrame(results)
+    if not res_df.empty:
+        res_df["coef_str"] = res_df.apply(lambda r: f"{r['coef']:.3f}{r['stars']}", axis=1)
+        from tabulate import tabulate
+        print("\n=== Books ➜ SES: summary (coef★, SE) ===")
+        print(tabulate(res_df[["subset", "predictor", "coef_str", "se"]], headers="keys", tablefmt="github", floatfmt=".3f"))
+        out_csv = os.path.join(BASE_DIR, "../output/2018output/books_ses_results_summary.csv")
+        os.makedirs(os.path.dirname(out_csv), exist_ok=True)
+        res_df.to_csv(out_csv, index=False)
+        print(f"✅ Saved Books➜SES summary CSV ➜ {out_csv}")
+
+    return res_df
+
+# --- Run + plots ---
+if RUN_BOOKS_SES_MODEL:
+    print("\n Running regression: Books at Home ➜ SES")
+    books_ses_results_df = run_books_to_ses_model(df)   # prints OLS table(s)
+
+    if not books_ses_results_df.empty:
+        # Save summary table
+        output_csv_path = "output/books_ses_summary.csv"
+        books_ses_results_df.to_csv(output_csv_path, index=False)
+        print(f"✅ Saved books➜SES summary table to: {output_csv_path}")
+
+        # Coefficient dot plot
+        color_map = {"OECD": "#1f77b4", "non-OECD": "#ff7f0e", "All Countries": "#003366"}
+        plt.figure(figsize=(7, 5))
+        for _, row in books_ses_results_df.iterrows():
+            plt.errorbar(row["coef"], row["subset"], xerr=1.96*row["se"],
+                         fmt='o', capsize=5, color=color_map.get(row["subset"], "#003366"))
+        plt.axvline(0, color='grey', linestyle='--', linewidth=1)
+        plt.xlabel("Effect of Books at Home on Socioeconomic Index (ESCS) (β)")
+        plt.title("Regression: Books at Home ➜ Socioeconomic Index (ESCS)")
+        plt.grid(axis='x', linestyle='--', alpha=0.4)
+        plt.tight_layout()
+        plt.savefig("output/books_ses_plot.png", dpi=300)
+        print("✅ Saved plot to: output/books_ses_plot.png")
+        plt.show()
+
+        # -------- Descriptive plots --------
+        book_labels = ["0–10", "11–25", "26–100", "101–200", "201–500", "500+"]
+        midpoint_map = {"0–10":5, "11–25":18, "26–100":63, "101–200":150, "201–500":350, "500+":500}
+
+        # Ensure category exists (bin numeric if needed)
+        if "books_home_cat" not in df.columns and "books_home" in df.columns:
+            bins = [-1, 10, 25, 100, 200, 500, float("inf")]
+            df["books_home_cat"] = pd.cut(
+                pd.to_numeric(df["books_home"], errors="coerce"),
+                bins=bins, labels=book_labels, right=True, include_lowest=True
+            )
+
+        if "books_home_cat" in df.columns:
+            # Means + SE by category
+            g = (df.dropna(subset=["books_home_cat", SES_VAR])
+                   .groupby("books_home_cat")[SES_VAR]
+                   .agg(["mean","count","std"])
+                   .reindex(book_labels))
+            g["se"] = g["std"] / (g["count"] ** 0.5)
+
+            # Plot 1: 6-point mean plot (main text)
+            plt.figure(figsize=(7, 5))
+            plt.errorbar(
+                x=range(len(g.index)),
+                y=g["mean"].values,
+                yerr=1.96 * g["se"].values,
+                fmt='o-', capsize=4, ecolor="gray", color="#003366"
+            )
+            plt.xticks(range(len(g.index)), g.index)
+            plt.title("Socioeconomic Index (ESCS) by Books at Home Category (All Countries)")
+            plt.xlabel("Books at Home (category)")
+            plt.ylabel("Mean Socioeconomic Index (ESCS)")
+            plt.grid(axis='y', linestyle='--', alpha=0.5)
+            plt.tight_layout()
+            plt.savefig("output/books_ses_means_by_category_all.png", dpi=300)
+            print("✅ Saved descriptive plot ➜ output/books_ses_means_by_category_all.png")
+            plt.show()
+
+            # Plot 2: Individual scatter (midpoint jitter) + category means (appendix)
+            import numpy as np
+            df_scatter = df.dropna(subset=["books_home_cat", SES_VAR]).copy()
+            df_scatter["books_midpoint"] = df_scatter["books_home_cat"].map(midpoint_map)
+
+            MAX_POINTS = 5000
+            scatter_sample = (df_scatter.sample(MAX_POINTS, random_state=42)
+                              if len(df_scatter) > MAX_POINTS else df_scatter)
+
+            rng = np.random.default_rng(42)
+            x_jit = scatter_sample["books_midpoint"].to_numpy() + rng.normal(0, 2, size=len(scatter_sample))
+
+            plt.figure(figsize=(7, 5))
+            plt.scatter(
+                x_jit, scatter_sample[SES_VAR],
+                s=8, alpha=0.2, c="#003366", edgecolors="none", label="Individual students"
+            )
+            plt.errorbar(
+                x=[5,18,63,150,350,500],
+                y=g["mean"].values, yerr=1.96*g["se"].values,
+                fmt='o-', color="#003366", markersize=6, capsize=4, linewidth=2, label="Category means"
+            )
+            plt.title("Socioeconomic Index (ESCS) by Books at Home — Individuals + Means")
+            plt.xlabel("Books at Home (numeric midpoint; jittered)")
+            plt.ylabel("Socioeconomic Index (ESCS)")
+            plt.grid(axis='y', linestyle='--', alpha=0.5)
+            plt.legend()
+            plt.tight_layout()
+            plt.savefig("output/books_ses_scatter_with_means.png", dpi=300)
+            print("✅ Saved scatter plot ➜ output/books_ses_scatter_with_means.png")
+            plt.show()
