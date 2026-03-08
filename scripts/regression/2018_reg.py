@@ -364,7 +364,7 @@ def run_ses_to_books_model(df_in):
             model_vars = [outcome_var, predictor] + control_vars
 
         df_model = subset_df[model_vars].copy().dropna()
-        print(f"📊 Sample size: {len(df_model)}")
+        print(f"Sample size: {len(df_model)}")
 
         if df_model[predictor].nunique() < 2:
             print("⚠️ Skipping: not enough variation in SES")
@@ -439,5 +439,5 @@ if RUN_SES_BOOKS_LINEPLOT:
         plt.title("Mean Socioeconomic Index by Books at Home Category")
         plt.grid(axis='x', linestyle='--', alpha=0.5); plt.tight_layout()
         out_path = f"output/ses_vs_books_line_{_safe_subset_name(subset_label)}.png"
-        plt.savefig(out_path, dpi=300); print(f"✅ Saved descriptive plot ➜ {out_path}")
+        plt.savefig(out_path, dpi=300); print(f"Saved descriptive plot ➜ {out_path}")
         plt.show()

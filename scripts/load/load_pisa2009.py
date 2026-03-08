@@ -64,7 +64,7 @@ for i, label in enumerate(["magazines", "comics", "fiction", "nonfiction", "news
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 df.to_csv(output_path, index=False)
 
-print("✅ Cleaned ALL COUNTRY 2009 data saved to:", output_path)
+print("Cleaned ALL COUNTRY 2009 data saved to:", output_path)
 print(df["books_home"].value_counts(sort=False))
 print(df["books_home"].value_counts(normalize=True).round(3) * 100)
 
@@ -75,8 +75,8 @@ ukus["books_home"] = pd.Categorical(
     ordered=True
 )
 
-print("\n🇬🇧🇺🇸 UK + US book counts:")
+print("\nUK + US book counts:")
 print(ukus["books_home"].value_counts(sort=False))
 
-print("\n🇬🇧🇺🇸 UK + US book proportions (%):")
+print("\nUK + US book proportions (%):")
 print((ukus["books_home"].value_counts(normalize=True, sort=False) * 100).round(1))

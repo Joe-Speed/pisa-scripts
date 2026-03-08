@@ -29,33 +29,33 @@ df["books_home_label"] = pd.Categorical(df["books_home_label"], categories=categ
 num_students = len(df)
 num_countries = df["country"].nunique()
 
-print(f"\n✅ Sample size (student records): {num_students:,}")
-print(f"🌍 Number of countries in dataset: {num_countries}")
+print(f"\n Sample size (student records): {num_students:,}")
+print(f" Number of countries in dataset: {num_countries}")
 
 all_counts = df["books_home_label"].value_counts().reindex(category_order)
 all_percent = df["books_home_label"].value_counts(normalize=True).reindex(category_order) * 100
 all_df = pd.DataFrame({"Count": all_counts, "Percent": all_percent.round(1)})
 
-print("\n📘 All Countries Book Distribution:")
+print("\n All Countries Book Distribution:")
 print(tabulate(all_df, headers="keys", tablefmt="pretty"))
 
-print("\n📍 Top countries:")
+print("\n Top countries:")
 top_countries = df["country"].value_counts().head(20)
 print(tabulate(top_countries.reset_index().rename(columns={"index": "country", "country": "count"}), headers="keys", tablefmt="pretty"))
 
 ukus = df[df["country"].isin(["United Kingdom", "United States"])]
-print(f"\n✅ UK + US valid samples: {len(ukus):,}")
+print(f"\n UK + US valid samples: {len(ukus):,}")
 
 ukus_counts = ukus["books_home_label"].value_counts().reindex(category_order)
 ukus_percent = ukus["books_home_label"].value_counts(normalize=True).reindex(category_order) * 100
 ukus_df = pd.DataFrame({"Count": ukus_counts, "Percent": ukus_percent.round(1)})
 
-print("\n📘 UK + US Book Distribution:")
+print("\n UK + US Book Distribution:")
 print(tabulate(ukus_df, headers="keys", tablefmt="pretty"))
 
 output_path = os.path.join(BASE_DIR, "../output/pisa2022_books.csv")
 df.to_csv(output_path, index=False)
-print(f"\n✅ Saved cleaned subset to {output_path}")
+print(f"\n Saved cleaned subset to {output_path}")
 
 plot_df = all_df.reset_index()
 plot_df.columns = ["books_home", "Count", "Percent"]
@@ -74,7 +74,7 @@ for i, row in plot_df.iterrows():
 plt.tight_layout()
 chart_path = os.path.join(BASE_DIR, "../output/pisa2022_books_home_chart.png")
 plt.savefig(chart_path)
-print(f"\n📊 Saved bar chart to: {chart_path}")
+print(f"\n Saved bar chart to: {chart_path}")
 plt.show()
 
 books_overall = pd.DataFrame({
@@ -82,4 +82,4 @@ books_overall = pd.DataFrame({
     "percent": all_percent.round(1)
 })
 books_overall.to_csv(os.path.join(BASE_DIR, "../output/pisa2022_books_overall.csv"), index=False)
-print("✅ Saved books overall percentages to: pisa2022_books_overall.csv")
+print(" Saved books overall percentages to: pisa2022_books_overall.csv")

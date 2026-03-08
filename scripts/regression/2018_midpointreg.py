@@ -219,7 +219,7 @@ if RUN_GENERAL_REGRESSION:
                 model_vars += ["read_time_numeric", BOOKS_VAR]
 
             df_model = subset_df[model_vars].copy().dropna()
-            print(f"📊 Sample size: {len(df_model)}")
+            print(f"Sample size: {len(df_model)}")
 
             if df_model["read_time_numeric"].nunique() < 2:
                 print(f"⚠️ Skipping {outcome}: not enough variation")

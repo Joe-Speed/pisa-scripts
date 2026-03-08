@@ -27,10 +27,10 @@ df["books_home_label"] = df["books_home"].map(book_map)
 df = df[df["books_home_label"].notna()]
 df["books_home_label"] = pd.Categorical(df["books_home_label"], categories=category_order_books, ordered=True)
 
-print("\n📚 Books at Home (All Countries):")
+print("\nBooks at Home (All Countries):")
 print(tabulate(df["books_home_label"].value_counts().reindex(category_order_books).reset_index().rename(columns={"index": "Books", "books_home_label": "Count"}), headers="keys", tablefmt="pretty"))
 
-print("\n📚 Books at Home (UK + US):")
+print("\nBooks at Home (UK + US):")
 print(tabulate(ukus_df["books_home"].map(book_map).value_counts().reindex(category_order_books).reset_index().rename(columns={"index": "Books", "books_home": "Count"}), headers="keys", tablefmt="pretty"))
 
 
@@ -44,7 +44,7 @@ output_dir = os.path.join(BASE_DIR, "../output")
 os.makedirs(output_dir, exist_ok=True)
 books_csv_path = os.path.join(output_dir, "pisa2000_books_overall.csv")
 book_df.to_csv(books_csv_path, index=False)
-print(f"\n✅ Saved books at home % breakdown to: {books_csv_path}")
+print(f"\nSaved books at home % breakdown to: {books_csv_path}")
 
 
 sns.set(style="whitegrid")
@@ -60,7 +60,7 @@ for i, row in book_df.iterrows():
 
 chart_path = os.path.join(output_dir, "pisa2000_books_home_chart.png")
 plt.savefig(chart_path)
-print(f"📊 Saved books at home chart to: {chart_path}")
+print(f"Saved books at home chart to: {chart_path}")
 plt.show()
 
 read_map = {
@@ -75,10 +75,10 @@ df["read_time_label"] = df["read_time_cat"].map(read_map)
 df = df[df["read_time_label"].notna()]
 df["read_time_label"] = pd.Categorical(df["read_time_label"], categories=category_order_read, ordered=True)
 
-print("\n📖 Reading Time (All Countries):")
+print("\nReading Time (All Countries):")
 print(tabulate(df["read_time_label"].value_counts().reindex(category_order_read).reset_index().rename(columns={"index": "Read Time", "read_time_label": "Count"}), headers="keys", tablefmt="pretty"))
 
-print("\n📖 Reading Time (UK + US):")
+print("\nReading Time (UK + US):")
 print(tabulate(ukus_df["read_time_cat"].map(read_map).value_counts().reindex(category_order_read).reset_index().rename(columns={"index": "Read Time", "read_time_cat": "Count"}), headers="keys", tablefmt="pretty"))
 
 read_counts = df["read_time_label"].value_counts(normalize=True).reindex(category_order_read) * 100
@@ -98,7 +98,7 @@ for i, row in read_df.iterrows():
 
 chart_path = os.path.join(output_dir, "pisa2000_reading_time_chart.png")
 plt.savefig(chart_path)
-print(f"📊 Saved reading time chart to: {chart_path}")
+print(f"Saved reading time chart to: {chart_path}")
 plt.show()
 
 attitudes_output_dir = os.path.join(BASE_DIR, "../output/attitudes_readtime")
@@ -106,7 +106,7 @@ os.makedirs(attitudes_output_dir, exist_ok=True)
 
 read_csv_path = os.path.join(attitudes_output_dir, "pisa2000_reading_time.csv")
 read_df.to_csv(read_csv_path, index=False)
-print(f"✅ Saved reading time % breakdown to: {read_csv_path}")
+print(f"Saved reading time % breakdown to: {read_csv_path}")
 
 attitude_items = [
     "att_q35a_only_if_have_to", "att_q35b_reading_hobby", "att_q35c_talk_books",
@@ -114,7 +114,7 @@ attitude_items = [
     "att_q35g_enjoy_library", "att_q35h_read_for_info", "att_q35i_few_minutes_only"
 ]
 
-print("\n🧠 Reading Attitude Responses (All Countries):")
+print("\nReading Attitude Responses (All Countries):")
 for item in attitude_items:
     if item in df.columns:
         print(f"\n{item} response counts:")
@@ -132,9 +132,9 @@ attitudes_df.index.name = "Response"
 
 attitudes_path = os.path.join(attitudes_output_dir, "pisa2000_attitudes.csv")
 attitudes_df.to_csv(attitudes_path)
-print(f"✅ Saved reading attitude response table to: {attitudes_path}")
+print(f"Saved reading attitude response table to: {attitudes_path}")
 
-print(f"\n✅ Sample size (student records): {df.shape[0]:,}")
+print(f"\nSample size (student records): {df.shape[0]:,}")
 
 possible_country_cols = ["country", "CNT", "cnt", "country_name"]
 found_country_col = None
@@ -146,7 +146,7 @@ for col in possible_country_cols:
 
 if found_country_col:
     num_countries = df[found_country_col].nunique()
-    print(f"🌍 Number of countries in dataset (using '{found_country_col}'): {num_countries}")
+    print(f"Number of countries in dataset (using '{found_country_col}'): {num_countries}")
 else:
-    print("⚠️ Could not detect a country column automatically. Columns available:")
+    print("Could not detect a country column automatically. Columns available:")
     print(df.columns.tolist())

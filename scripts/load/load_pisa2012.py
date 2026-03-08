@@ -49,27 +49,27 @@ df["country_name"] = df["CNT"].map(country_map)
 num_students = len(df)
 num_countries = df["country_name"].nunique()
 
-print(f"\n✅ Sample size (student records): {num_students:,}")
-print(f"🌍 Number of countries in dataset: {num_countries}")
+print(f"\nSample size (student records): {num_students:,}")
+print(f"Number of countries in dataset: {num_countries}")
 
 output_dir = os.path.join(BASE_DIR, "../output")
 os.makedirs(output_dir, exist_ok=True)
 df.to_csv(os.path.join(output_dir, "pisa2012_amountbooks.csv"), index=False)
 
-print("✅ PISA 2012 data loaded and saved.")
-print("\n🔢 Number of observations per country:")
+print(" PISA 2012 data loaded and saved.")
+print("\n Number of observations per country:")
 print(df["country_name"].value_counts())
 
-print("\n📚 Book category distribution by country:")
+print("\nBook category distribution by country:")
 dist = df.groupby("country_name")["books_home"].value_counts(normalize=True).unstack().round(3) * 100
 print(dist.fillna(0).sort_index())
 
-print("\n📊 Overall distribution across UK + US only:")
+print("\n Overall distribution across UK + US only:")
 ukus = df[df["CNT"].isin(["GBR", "USA"])]
 print(ukus["books_home"].value_counts(sort=False))
 print(ukus["books_home"].value_counts(normalize=True, sort=False).round(3) * 100)
 
-print("\n🌍 Overall global distribution (all countries):")
+print("\n Overall global distribution (all countries):")
 print(df["books_home"].value_counts(sort=False))
 print(df["books_home"].value_counts(normalize=True, sort=False).round(3) * 100)
 
@@ -78,7 +78,7 @@ overall_df = overall_percent.reset_index()
 overall_df.columns = ["books_home", "percent"]
 
 overall_df.to_csv(os.path.join(output_dir, "pisa2012_books_overall.csv"), index=False)
-print("📁 Saved overall book distribution to: pisa2012_books_overall.csv")
+print("Saved overall book distribution to: pisa2012_books_overall.csv")
 
 
 counts = df["books_home"].value_counts().reindex(overall_df["books_home"])
@@ -103,5 +103,5 @@ total_n = len(df)
 plt.figtext(0.5, -0.05, f"Total valid responses: n = {total_n:,}", ha="center", fontsize=10) 
 chart_path = os.path.join(output_dir, "pisa2012_books_home_chart.png")
 plt.savefig(chart_path, bbox_inches="tight")
-print(f"\n📊 Saved bar chart to: {chart_path}")
+print(f"\nSaved bar chart to: {chart_path}")
 plt.show()

@@ -103,6 +103,6 @@ for col in parental_edu_cols:
     df[col] = df[col].replace({7: pd.NA, 8: pd.NA, 9: pd.NA})
 
 df.to_csv(output_path, index=False)
-print("✅ Cleaned UK/US 2000 data saved to:", output_path)
+print("Cleaned UK/US 2000 data saved to:", output_path)
 print(df.head())
-print("📍 Countries in cleaned data:", df["country_name"].unique())
+print("Countries in cleaned data:", df["country_name"].unique())

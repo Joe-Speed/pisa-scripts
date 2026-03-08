@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-print("✅ Script started...")
+print("Script started...")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(BASE_DIR, "../data/2018/CY07_MSU_STU_QQQ.sav")
@@ -595,4 +595,4 @@ df["home_computers_label"] = df["home_computers"].map(device_count_map)
 
 output_path = os.path.join(BASE_DIR, "../output/2018output/newpisa2018_cleaned_all_countries.csv")
 df.to_csv(output_path, index=False)
-print(f"📁 Exported cleaned file to: {output_path}")
+print(f" Exported cleaned file to: {output_path}")

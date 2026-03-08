@@ -24,13 +24,13 @@ ordered_labels = ["0–10", "11–25", "26–100", "101–200", "201–500", "50
 df["books_home_label"] = pd.Categorical(df["books_home_label"], categories=ordered_labels, ordered=True)
 
 df = df[df["books_home_label"].notna()]
-print(f"\n✅ Total valid samples (all countries): {len(df):,}")
+print(f"\nTotal valid samples (all countries): {len(df):,}")
 
 num_students = len(df)
 num_countries = df["country"].nunique()
 
-print(f"\n✅ Sample size (student records): {num_students:,}")
-print(f"🌍 Number of countries in dataset: {num_countries}")
+print(f"\nSample size (student records): {num_students:,}")
+print(f"Number of countries in dataset: {num_countries}")
 
 output_dir = os.path.join(BASE_DIR, "../output")
 os.makedirs(output_dir, exist_ok=True)
@@ -40,11 +40,11 @@ all_counts = df["books_home_label"].value_counts(sort=False)
 all_percent = (all_counts / all_counts.sum() * 100).round(1)
 all_df = pd.DataFrame({"Count": all_counts, "Percent": all_percent})
 
-print("\n📘 Book Distribution (All Countries):")
+print("\n Book Distribution (All Countries):")
 print(tabulate(all_df, headers="keys", tablefmt="pretty"))
 all_df.to_csv(os.path.join(output_dir, "pisa2015_books_overall.csv"))
 
-print("\n📍 Top Countries by Sample Size:")
+print("\n Top Countries by Sample Size:")
 print(tabulate(df["country"].value_counts().head(20).reset_index().rename(columns={"index": "Country", "country": "N"}), headers="keys", tablefmt="pretty"))
 
 ukus = df[df["country"].isin(["United Kingdom", "United States"])]
@@ -52,8 +52,8 @@ ukus_counts = ukus["books_home_label"].value_counts(sort=False)
 ukus_percent = (ukus_counts / ukus_counts.sum() * 100).round(1)
 ukus_df = pd.DataFrame({"Count": ukus_counts, "Percent": ukus_percent})
 
-print(f"\n✅ UK + US valid samples: {ukus_counts.sum():,}")
-print("\n📘 Book Distribution (UK + US):")
+print(f"\n UK + US valid samples: {ukus_counts.sum():,}")
+print("\n Book Distribution (UK + US):")
 print(tabulate(ukus_df, headers="keys", tablefmt="pretty"))
 ukus_df.to_csv(os.path.join(output_dir, "pisa2015_books_ukus.csv"))
 
@@ -65,11 +65,11 @@ country_summary = (
     * 100
 ).round(1)
 
-print("\n📚 Percentage of Students per Book Category by Country:")
+print("\n Percentage of Students per Book Category by Country:")
 print(tabulate(country_summary, headers="keys", tablefmt="pretty"))
 
 country_summary.to_csv(os.path.join(output_dir, "pisa2015_books_by_country.csv"))
-print(f"\n📁 Exported to: {output_dir}/pisa2015_books_by_country.csv")
+print(f"\n Exported to: {output_dir}/pisa2015_books_by_country.csv")
 
 chart_df = all_df.reset_index()
 chart_df.columns = ["books_home", "Count", "percent"]
@@ -94,5 +94,5 @@ plt.figtext(0.5, -0.05, f"Total valid responses: n = {total_n:,}", ha="center", 
 
 chart_path = os.path.join(output_dir, "pisa2015_books_home_chart.png")
 plt.savefig(chart_path, bbox_inches="tight")
-print(f"\n📊 Saved bar chart to: {chart_path}")
+print(f"\n Saved bar chart to: {chart_path}")
 plt.show()

@@ -14,8 +14,8 @@ df["read_time_cat"] = pd.to_numeric(df["read_time_cat"], errors="coerce")
 num_students = len(df)
 num_countries = df["country"].nunique()
 
-print(f"\n✅ Sample size (student records): {num_students:,}")
-print(f"🌍 Number of countries in dataset (based on 'country' codes): {num_countries}")
+print(f"\nSample size (student records): {num_students:,}")
+print(f"Number of countries in dataset (based on 'country' codes): {num_countries}")
 
 ukus_df = df[df["country"].isin(["826", "840"])]
 
@@ -23,7 +23,7 @@ category_order_books = ["0–10", "11–25", "26–100", "101–200", "201–500
 df = df[df["books_home"].isin(category_order_books)]
 df["books_home_label"] = pd.Categorical(df["books_home"], categories=category_order_books, ordered=True)
 
-print("\n📚 Books at Home (All Countries):")
+print("\nBooks at Home (All Countries):")
 print(tabulate(df["books_home_label"].value_counts().reindex(category_order_books).reset_index().rename(columns={"index": "Books", "books_home_label": "Count"}), headers="keys", tablefmt="pretty"))
 
 book_counts = df["books_home_label"].value_counts(normalize=True).reindex(category_order_books) * 100
@@ -35,7 +35,7 @@ output_dir = os.path.join(BASE_DIR, "../output")
 os.makedirs(output_dir, exist_ok=True)
 books_csv_path = os.path.join(output_dir, "pisa2009_books_overall.csv")
 book_df.to_csv(books_csv_path, index=False)
-print(f"\n✅ Saved books at home % breakdown to: {books_csv_path}")
+print(f"\nSaved books at home % breakdown to: {books_csv_path}")
 
 sns.set(style="whitegrid")
 plt.figure(figsize=(8, 5))
@@ -50,7 +50,7 @@ for i, row in book_df.iterrows():
 
 chart_path = os.path.join(output_dir, "pisa2009_books_home_chart.png")
 plt.savefig(chart_path)
-print(f"📊 Saved books at home chart to: {chart_path}")
+print(f"Saved books at home chart to: {chart_path}")
 plt.show()
 
 read_map = {
@@ -65,7 +65,7 @@ df["read_time_label"] = df["read_time_cat"].map(read_map)
 df = df[df["read_time_label"].notna()]
 df["read_time_label"] = pd.Categorical(df["read_time_label"], categories=category_order_read, ordered=True)
 
-print("\n📖 Reading Time (All Countries):")
+print("\nReading Time (All Countries):")
 print(tabulate(df["read_time_label"].value_counts().reindex(category_order_read).reset_index().rename(columns={"index": "Read Time", "read_time_label": "Count"}), headers="keys", tablefmt="pretty"))
 
 read_counts = df["read_time_label"].value_counts(normalize=True).reindex(category_order_read) * 100
@@ -85,7 +85,7 @@ for i, row in read_df.iterrows():
 
 read_chart_path = os.path.join(output_dir, "pisa2009_reading_time_chart.png")
 plt.savefig(read_chart_path)
-print(f"📊 Saved reading time chart to: {read_chart_path}")
+print(f"Saved reading time chart to: {read_chart_path}")
 plt.show()
 
 attitudes_output_dir = os.path.join(BASE_DIR, "../output/attitudes_readtime")
@@ -93,7 +93,7 @@ os.makedirs(attitudes_output_dir, exist_ok=True)
 
 read_csv_path = os.path.join(attitudes_output_dir, "pisa2009_reading_time.csv")
 read_df.to_csv(read_csv_path, index=False)
-print(f"✅ Saved reading time % breakdown to: {read_csv_path}")
+print(f"Saved reading time % breakdown to: {read_csv_path}")
 
 attitude_items = {
     "att_q35a": "Q1: I read only if I have to",
@@ -114,7 +114,7 @@ for col in attitude_items:
         df[col + "_clean"] = df[col].where(df[col].isin([1, 2, 3, 4]))
 
 
-print("\n🧠 Cleaned Attitude Value Counts (1–4 only):")
+print("\nCleaned Attitude Value Counts (1–4 only):")
 cleaned_counts = {}
 for col, label in attitude_items.items():
     col_clean = col + "_clean"
@@ -133,4 +133,4 @@ os.makedirs(attitudes_output_dir, exist_ok=True)
 attitudes_path = os.path.join(attitudes_output_dir, "pisa2009_attitudes_cleaned_labeled.csv")
 attitudes_df.to_csv(attitudes_path)
 
-print(f"\n✅ Saved labeled cleaned attitudes to: {attitudes_path}")
+print(f"\nSaved labeled cleaned attitudes to: {attitudes_path}")

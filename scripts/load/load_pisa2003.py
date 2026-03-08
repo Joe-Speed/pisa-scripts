@@ -41,13 +41,13 @@ df["books_home"] = pd.Categorical(df["books_home"], categories=ordered_labels, o
 output_dir = os.path.join(BASE_DIR, "../output")
 os.makedirs(output_dir, exist_ok=True)
 df.to_csv(os.path.join(output_dir, "pisa2003_amountbooks.csv"), index=False)
-print(f"\n✅ Cleaned data saved to: {output_dir}/pisa2003_amountbooks.csv")
+print(f"\nCleaned data saved to: {output_dir}/pisa2003_amountbooks.csv")
 
-print("\n🔍 Sample preview:")
+print("\nSample preview:")
 print(tabulate(df.head(10), headers="keys", tablefmt="pretty"))
 
-print(f"\n🌍 Unique countries in dataset: {df['country_name'].nunique()}")
-print(f"🧮 Total valid book entries: {len(df)}")
+print(f"\nUnique countries in dataset: {df['country_name'].nunique()}")
+print(f"Total valid book entries: {len(df)}")
 
 summary = (
     df.groupby("country_name")["books_home"]
@@ -57,21 +57,21 @@ summary = (
     * 100
 ).round(1)
 
-print("\n📚 Percentage of Students per Book Category by Country:")
+print("\nPercentage of Students per Book Category by Country:")
 print(tabulate(summary, headers="keys", tablefmt="pretty"))
 
 summary.to_csv(os.path.join(output_dir, "pisa2003_books_by_country.csv"))
-print(f"\n📁 Exported to: {output_dir}/pisa2003_books_by_country.csv")
+print(f"\nExported to: {output_dir}/pisa2003_books_by_country.csv")
 
 overall = df["books_home"].value_counts(normalize=True).sort_index() * 100
 overall = overall.reindex(ordered_labels).round(1)
 
-print("\n📊 Overall Book Distribution (% All Countries):")
+print("\nOverall Book Distribution (% All Countries):")
 overall_df = pd.DataFrame({"Percent": overall})
 print(tabulate(overall_df, headers="keys", tablefmt="pretty"))
 
 overall_df.to_csv(os.path.join(output_dir, "pisa2003_books_overall.csv"))
-print(f"\n📁 Exported to: {output_dir}/pisa2003_books_overall.csv")
+print(f"\nExported to: {output_dir}/pisa2003_books_overall.csv")
 
 overall_df = overall.reset_index()
 overall_df.columns = ["books_home", "percent"]
@@ -98,11 +98,11 @@ plt.figtext(0.5, -0.05, f"Total valid responses: n = {total_n:,}", ha="center", 
 
 chart_path = os.path.join(output_dir, "pisa2003_books_home_chart.png")
 plt.savefig(chart_path, bbox_inches='tight')
-print(f"\n📊 Saved bar chart to: {chart_path}")
+print(f"\nSaved bar chart to: {chart_path}")
 plt.show()
 
 num_students = len(df)
 num_countries = df['country_name'].nunique()
 
-print(f"\n✅ Sample size (student records): {num_students:,}")
-print(f"🌍 Number of countries in dataset: {num_countries}")
+print(f"\nSample size (student records): {num_students:,}")
+print(f"Number of countries in dataset: {num_countries}")

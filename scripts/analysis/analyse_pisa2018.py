@@ -55,7 +55,7 @@ read_counts = df["read_time_cat"].value_counts().reindex(read_order)
 read_percents = (read_counts / read_counts.sum() * 100).round(1)
 read_df = pd.DataFrame({"Time": read_order, "Percent": read_percents.values, "n": read_counts.values})
 
-print("\n📖 Reading Time (All Countries):")
+print("\nReading Time (All Countries):")
 print(tabulate(read_df, headers="keys", tablefmt="pretty"))
 read_df.to_csv(os.path.join(output_dir, "2018_readingtime_all.csv"), index=False)
 
@@ -122,7 +122,7 @@ format_df = pd.DataFrame({
     "n": format_counts.values
 })
 
-print("\n📘 Book Format Preference (All Countries):")
+print("\nBook Format Preference (All Countries):")
 print(tabulate(format_df, headers="keys", tablefmt="pretty"))
 format_df.to_csv(os.path.join(output_dir, "2018_format_all.csv"), index=False)
 
@@ -144,7 +144,7 @@ plt.ylim(0, format_df["Percent"].max() + 10)
 plt.tight_layout()
 chart_path = os.path.join(output_dir, "2018_format_all.png")
 plt.savefig(chart_path, bbox_inches="tight")
-print(f"\n📊 Saved improved format bar chart to: {chart_path}")
+print(f"\nSaved improved format bar chart to: {chart_path}")
 plt.close()
 
 attitude_labels = {
@@ -169,7 +169,7 @@ att_df = pd.DataFrame(att_counts).fillna(0).astype(int)
 att_df.index.name = "Response"
 att_df.to_csv(os.path.join(att_output_dir, "pisa2018_attitudes.csv"))
 
-print(f"\n✅ Saved attitude response breakdown ➜ pisa2018_attitudes.csv")
+print(f"\nSaved attitude response breakdown ➜ pisa2018_attitudes.csv")
 
 oecd_codes = [
     "AUS", "AUT", "BEL", "CAN", "CHE", "CHL", "COL", "CRI", "CZE", "DEU",
@@ -186,7 +186,7 @@ for group_label, group_df in [("OECD", df_bh[df_bh["is_OECD"]]), ("non-OECD", df
     percents = (counts / counts.sum() * 100).round(1)
     summary = pd.DataFrame({"Books": book_order, "Percent": percents.values, "n": counts.values})
     summary.to_csv(os.path.join(output_dir, f"2018_books_{group_label}.csv"), index=False)
-    print(f"\n📚 {group_label} Books at Home:")
+    print(f"\n{group_label} Books at Home:")
     print(tabulate(summary, headers="keys", tablefmt="pretty"))
 
 comp_df = []

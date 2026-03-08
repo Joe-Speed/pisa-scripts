@@ -56,16 +56,16 @@ for item_label, year_map in attitude_var_map.items():
     df_plot = pd.DataFrame()
     sample_sizes = {}
 
-    print(f"\n📖 {item_label}")
+    print(f"\n{item_label}")
     for year, var in year_map.items():
         path = file_paths.get(year)
         if not os.path.exists(path):
-            print(f"{year}: ❌ File not found at {path}")
+            print(f"{year}: File not found at {path}")
             continue
 
         df = pd.read_csv(path)
         if var not in df.columns:
-            print(f"{year}: ❌ Column not found: {var}")
+            print(f"{year}: Column not found: {var}")
             continue
 
         series = df[var]

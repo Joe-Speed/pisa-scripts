@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
-import seaborn as sns
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 att_dir = os.path.join(BASE_DIR, "../output/readtime")
