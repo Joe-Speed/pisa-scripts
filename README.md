@@ -96,25 +96,25 @@ Throughout, PISA's special missing-value codes (e.g. `7/8/9`, `97/98/99`, and th
 
 ## Getting the data
 
-1. Go to the [OECD PISA data page](https://www.oecd.org/en/about/programmes/pisa/pisa-data.html)
-   and download the **student questionnaire** data file for each wave you need.
-   - **2000–2012** are distributed as fixed-width text files (with SPSS/SAS control files).
-   - **2015–2022** are distributed as SPSS (`.sav`) files.
-2. Place the files under `scripts/data/<year>/` so the relative paths in the load scripts resolve:
+Download the **student questionnaire** data file for each wave from the OECD's per-wave database
+pages, then place it under `scripts/data/<year>/` so the relative paths in the load scripts
+resolve. **2000–2012** are distributed as fixed-width text files (with SPSS/SAS control files);
+**2015–2022** are distributed as SPSS (`.sav`) files.
 
-```
-scripts/data/
-├── 2000/2000_QU_data.txt
-├── 2003/2003_QU_data.txt
-├── 2006/2006_QU_data.txt
-├── 2009/2009_QU_data.txt
-├── 2012/2012_QU_data.txt
-├── 2015/PUF_SPSS_COMBINED_CMB_STU_QQQ/CY6_MS_CMB_STU_QQQ.sav
-├── 2018/CY07_MSU_STU_QQQ.sav
-└── 2022/CY08MSP_STU_QQQ.SAV
-```
+| Wave | Download page | Expected path in this repo |
+|---|---|---|
+| 2000 | [PISA 2000 Database](https://www.oecd.org/en/data/datasets/pisa-2000-database.html) | `scripts/data/2000/2000_QU_data.txt` |
+| 2003 | [PISA 2003 Database](https://www.oecd.org/en/data/datasets/pisa-2003-database.html) | `scripts/data/2003/2003_QU_data.txt` |
+| 2006 | [PISA 2006 Database](https://www.oecd.org/en/data/datasets/pisa-2006-database.html) | `scripts/data/2006/2006_QU_data.txt` |
+| 2009 | [PISA 2009 Database](https://www.oecd.org/en/data/datasets/pisa-2009-database.html) | `scripts/data/2009/2009_QU_data.txt` |
+| 2012 | [PISA 2012 Database](https://www.oecd.org/en/data/datasets/pisa-2012-database.html) | `scripts/data/2012/2012_QU_data.txt` |
+| 2015 | [PISA 2015 Database](https://www.oecd.org/en/data/datasets/pisa-2015-database.html) | `scripts/data/2015/PUF_SPSS_COMBINED_CMB_STU_QQQ/CY6_MS_CMB_STU_QQQ.sav` |
+| 2018 | [PISA 2018 Database](https://www.oecd.org/en/data/datasets/pisa-2018-database.html) | `scripts/data/2018/CY07_MSU_STU_QQQ.sav` |
+| 2022 | [PISA 2022 Database](https://www.oecd.org/en/data/datasets/pisa-2022-database.html) | `scripts/data/2022/CY08MSP_STU_QQQ.SAV` |
 
-(The `.txt` files are the raw student-questionnaire text files, renamed to `<year>_QU_data.txt`.)
+The `.txt` files for 2000–2012 are the raw student-questionnaire text files, renamed to
+`<year>_QU_data.txt`; the `.sav` files keep their original OECD filenames. An index of all PISA
+data products is on the [OECD PISA data page](https://www.oecd.org/en/about/programmes/pisa/pisa-data.html).
 
 The column positions used for the fixed-width waves were taken from the official OECD codebooks
 for each cycle, which are also available on the PISA data page.
