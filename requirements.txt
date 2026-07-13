@@ -1,0 +1,8 @@
+pandas>=2.0
+numpy>=1.24
+matplotlib>=3.7
+seaborn>=0.12
+statsmodels>=0.14
+tabulate>=0.9
+pyreadstat>=1.2   # required by pandas.read_spss for the 2015/2018/2022 .sav files
+patsy>=0.5        # only needed if the optional VIF check is enabled in the regression scripts

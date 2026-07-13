@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use these scripts, please cite them as below."
+title: "PISA Analysis Scripts (2000-2022)"
+authors:
+  - family-names: "Speed"
+    given-names: "Joe"
+type: software
+repository-code: "https://github.com/Joe-Speed/pisa-scripts"
+license: MIT
+date-released: 2026-03-10
+abstract: >-
+  Python scripts for cleaning and analysing OECD PISA student questionnaire
+  microdata (2000-2022), produced for an MSc dissertation at the University
+  of Glasgow on adolescent reading behaviour. Covers books at home, daily
+  reading time and reading attitudes across waves, and regressions of
+  metacognitive outcomes on reading behaviour in PISA 2018.

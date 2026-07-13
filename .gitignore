@@ -2,4 +2,5 @@ Codebook/
 data/
 output/
 Questionnaire/
-.DS_Store
+.DS_Store__pycache__/
+.venv/
