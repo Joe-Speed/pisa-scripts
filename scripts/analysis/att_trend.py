@@ -69,11 +69,7 @@ for item_label, year_map in attitude_var_map.items():
             continue
 
         series = df[var]
-        if year == 2009:
-            valid = series[series.isin([1, 2, 3, 4])]
-        else:
-            valid = series.dropna()
-            valid = valid[valid.isin([1, 2, 3, 4])]
+        valid = series[series.isin([1, 2, 3, 4])]
 
         vc = valid.value_counts(normalize=True).sort_index() * 100
         vc = vc.round(2)

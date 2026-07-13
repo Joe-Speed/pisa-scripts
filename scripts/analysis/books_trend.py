@@ -22,7 +22,9 @@ label_map = {
 all_dfs = []
 
 for year in YEARS:
-    path = os.path.join(OUTPUT_DIR, f"pisa{year}_books_overall.csv")
+    # 2018 comes from analyse_pisa2018.py, which names its output differently
+    file_name = "2018_books_all.csv" if year == 2018 else f"pisa{year}_books_overall.csv"
+    path = os.path.join(OUTPUT_DIR, file_name)
     if not os.path.exists(path):
         print(f"Missing: {path}")
         continue

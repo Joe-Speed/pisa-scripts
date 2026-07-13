@@ -128,8 +128,6 @@ for col, label in attitude_items.items():
 attitudes_df = pd.DataFrame(cleaned_counts).fillna(0).astype(int)
 attitudes_df.index.name = "Response"
 
-attitudes_output_dir = os.path.join(BASE_DIR, "../output/attitudes_readtime")
-os.makedirs(attitudes_output_dir, exist_ok=True)
 attitudes_path = os.path.join(attitudes_output_dir, "pisa2009_attitudes_cleaned_labeled.csv")
 attitudes_df.to_csv(attitudes_path)
 

@@ -4,14 +4,13 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-att_dir = os.path.join(BASE_DIR, "../output/readtime")
-plot_dir = os.path.join(att_dir, "plots")
+plot_dir = os.path.join(BASE_DIR, "../output/readtime/plots")
 os.makedirs(plot_dir, exist_ok=True)
 
 time_files = {
-    2000: "pisa2000_reading_time.csv",
-    2009: "pisa2009_reading_time.csv",
-    2018: "pisa2018_reading_time.csv"
+    2000: os.path.join(BASE_DIR, "../output/attitudes_readtime/pisa2000_reading_time.csv"),
+    2009: os.path.join(BASE_DIR, "../output/attitudes_readtime/pisa2009_reading_time.csv"),
+    2018: os.path.join(BASE_DIR, "../output/2018_readingtime_all.csv")
 }
 
 standard_labels = {
@@ -30,7 +29,7 @@ df_time_plot = pd.DataFrame()
 sample_sizes = {}
 
 for year, file in time_files.items():
-    df = pd.read_csv(os.path.join(att_dir, file), keep_default_na=False)
+    df = pd.read_csv(file, keep_default_na=False)
     time_col = "Time" if "Time" in df.columns else "read_time"
     pct_col = "Percent" if "Percent" in df.columns else "percent"
     n_col = "n"

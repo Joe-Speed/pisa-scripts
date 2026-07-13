@@ -177,7 +177,6 @@ oecd_codes = [
 ]
 
 df["is_OECD"] = df["country"].isin(oecd_codes)
-import matplotlib.pyplot as plt
 
 RUN_GENERAL_REGRESSION = False
 SPLIT_BY_OECD = False
@@ -438,6 +437,6 @@ if RUN_SES_BOOKS_LINEPLOT:
         plt.ylabel("Number of Books at Home (category)")
         plt.title("Mean Socioeconomic Index by Books at Home Category")
         plt.grid(axis='x', linestyle='--', alpha=0.5); plt.tight_layout()
-        out_path = f"output/ses_vs_books_line_{_safe_subset_name(subset_label)}.png"
+        out_path = os.path.join(BASE_DIR, f"../output/ses_vs_books_line_{_safe_subset_name(subset_label)}.png")
         plt.savefig(out_path, dpi=300); print(f"Saved descriptive plot ➜ {out_path}")
         plt.show()

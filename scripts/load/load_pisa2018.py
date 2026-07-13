@@ -552,11 +552,6 @@ reading_pref_vars = [
 for col in reading_pref_vars:
     df[col + "_label"] = df[col].map(reading_pref_map)
 
-yes_no_map = {
-    1: "Yes",
-    2: "No"
-}
-
 for var in [
     "diglit_keywords_search", "diglit_trust_info", "diglit_compare_pages",
     "diglit_privacy_awareness", "diglit_search_snippet",

@@ -6,7 +6,7 @@ import matplotlib.ticker as mtick
 from tabulate import tabulate
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-data_path = os.path.join(BASE_DIR, "../output/2018output/oldpisa2018_cleaned_all_countries.csv")
+data_path = os.path.join(BASE_DIR, "../output/2018output/newpisa2018_cleaned_all_countries.csv")
 df = pd.read_csv(data_path)
 
 df = df.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
@@ -171,14 +171,6 @@ att_df.to_csv(os.path.join(att_output_dir, "pisa2018_attitudes.csv"))
 
 print(f"\nSaved attitude response breakdown ➜ pisa2018_attitudes.csv")
 
-oecd_codes = [
-    "AUS", "AUT", "BEL", "CAN", "CHE", "CHL", "COL", "CRI", "CZE", "DEU",
-    "DNK", "EST", "FIN", "FRA", "GBR", "GRC", "HUN", "ISL", "IRL", "ISR",
-    "ITA", "JPN", "KOR", "LTU", "LUX", "LVA", "MEX", "NLD", "NOR", "NZL",
-    "POL", "PRT", "SVK", "SVN", "ESP", "SWE", "TUR", "USA"
-]
-
-df["is_OECD"] = df["country"].isin(oecd_codes)
 df_bh = df.dropna(subset=["books_home_cat"])
 
 for group_label, group_df in [("OECD", df_bh[df_bh["is_OECD"]]), ("non-OECD", df_bh[~df_bh["is_OECD"]])]:
